@@ -70,7 +70,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
 
     var errorMessage = 'There was an error and it has been reported.  Please try again later.';
 
-    var attribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/license/by/3.0">CC BY 3.0</a>.  Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. <a href="http://opendataphilly.org/opendata/resource/215/philadelphia-police-part-one-crime-incidents/">Crime data</a> from Philadelphia Police Department.  Application by <a href="http://www.davewalk.net">David Walk</a>. <a href="https://github.com/davewalk/phl-crime-mapper">This application</a> is in no way affiliated with the City of Philadelphia. <a href="mailto:daviddwalk@gmail.com?subject=PHL Crime Mapper Feedback">Please send feedback</a>.';    
+    var attribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/license/by/3.0">CC BY 3.0</a>.  Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. <a href="http://opendataphilly.org/opendata/resource/215/philadelphia-police-part-one-crime-incidents/">Crime data</a> from Philadelphia Police Department.  &copy; <a href="https://github.com/davewalk/phl-crime-mapper">PHL Crime Mapper</a>. <a href="mailto:daviddwalk@gmail.com?subject=PHL Crime Mapper Feedback">Please send feedback</a>.';    
 
     var mapAttribution = new L.Control.Attribution({
         prefix: false,
@@ -158,12 +158,12 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
     // $EVENTS
     $('#dateSlider').bind('userValuesChanged', function(e, bind) {
         if (!$.isEmptyObject(geometry)) {
-            _gaq.push(['_trackEvent', 'UserInput', 'DateSliderChange', 'AfterDraw']);
+            // _gaq.push(['_trackEvent', 'UserInput', 'DateSliderChange', 'AfterDraw']);
             $('.loading').trigger('loading');
             var queryGeometry = JSON.stringify(geometry);
             fetchCrimes(queryGeometry);
         } else {
-            _gaq.push(['_trackEvent', 'UserInput', 'DateSliderChange', 'BeforeDraw']);
+            //_gaq.push(['_trackEvent', 'UserInput', 'DateSliderChange', 'BeforeDraw']);
         }
     });
 
@@ -180,7 +180,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
     });
 
     map.on('draw:poly-created', function(evt) {
-        _gaq.push(['_trackEvent', 'UserInput', 'PolygonDrawn', '']);
+        // _gaq.push(['_trackEvent', 'UserInput', 'PolygonDrawn', '']);
         $('.loading').trigger('loading');
         geometry = {};
         drawnItems.clearLayers();
@@ -242,7 +242,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             error: function(jqXHR, textStatus, errorThrown) {
                 $('.loading').trigger('doneLoading');
                 alert(errorMessage);
-                _gaq.push(['_trackEvent', 'Error', 'Ajax error', 'In fetchCrimes: ' + errorThrown]);
+                // _gaq.push(['_trackEvent', 'Error', 'Ajax error', 'In fetchCrimes: ' + errorThrown]);
             }
         });
     };    
@@ -266,7 +266,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
         if (!data.features) {
             $('.loading').trigger('doneLoading');
             alert(errorMessage);           
-            _gaq.push(['_trackEvent', 'Error', 'Request error', data.error.message + ': '+ data.error.details[0]]);
+            // _gaq.push(['_trackEvent', 'Error', 'Request error', data.error.message + ': '+ data.error.details[0]]);
         }
 
         crimes.clearAllCounts();
@@ -367,7 +367,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
         }
 
         $('#results').change(function(evt) {
-        _gaq.push(['_trackEvent', 'UserInput', 'CrimeTypeToggle', evt.target.attributes[1].nodeValue]);
+        // _gaq.push(['_trackEvent', 'UserInput', 'CrimeTypeToggle', evt.target.attributes[1].nodeValue]);
         updateVisibleLayers()    
         });
 
@@ -429,7 +429,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             error: function(jqXHR, textStatus, errorThrown) {
                 $('.loading').trigger('doneLoading');
                 alert(errorMessage);
-                _gaq.push(['_trackEvent', 'Error', 'Ajax error', 'In isCoordsInCity: ' + errorThrown]);
+                // _gaq.push(['_trackEvent', 'Error', 'Ajax error', 'In isCoordsInCity: ' + errorThrown]);
             }
         });
 
@@ -478,7 +478,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             error: function(jqXHR, textStatus, errorThrown) {
                 $('.loading').trigger('doneLoading');
                 alert(errorMessage);
-                _gaq.push(['_trackEvent', 'Error', 'Ajax error', 'In fetchMobileBuffer: ' + errorThrown]);               
+                // _gaq.push(['_trackEvent', 'Error', 'Ajax error', 'In fetchMobileBuffer: ' + errorThrown]);               
             }
         });
     }
@@ -486,13 +486,13 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
     var noGeolocationAlert = function() {
         alert(noGeolocationMessage);
         $('.loading').trigger('doneLoading');
-        _gaq.push(['_trackEvent', 'Error', 'Geolocation failure', '']);
+        // _gaq.push(['_trackEvent', 'Error', 'Geolocation failure', '']);
     }
         
     var currentPositionError = function() {
         noGeolocationAlert();
         $('.loading').trigger('doneLoading');
-        _gaq.push(['_trackEvent', 'Error', 'Geolocation failure', '']);
+        // _gaq.push(['_trackEvent', 'Error', 'Geolocation failure', '']);
     }
 
     PCM.showCrimesMobile = function(distance) {
@@ -500,7 +500,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             $('.loading').trigger('loading');
 
             mobileBufferDistance = distance;
-            _gaq.push(['_trackEvent', 'UserInput', 'MobileBufferDistance', mobileBufferDistance]);
+            // _gaq.push(['_trackEvent', 'UserInput', 'MobileBufferDistance', mobileBufferDistance]);
 
             if (window.navigator.geolocation) {
 
