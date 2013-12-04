@@ -58,7 +58,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
 
     var isTouch = false; 
 
-    var maxResultsNote = '<h4>NOTE: Only 1000 crimes may be accessed at a time.</h4>';
+    var maxResultsNote = '<p><em>NOTE: Maximum of 1,000 crimes will be shown.</em></p>';
     
     var mobileResultsNote = '<h4>Visit phlcrimemapper.com on a computer for additional functionality.</h4>';
 
@@ -127,7 +127,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             dragging: true
         });
 
-        map.addControl(mapAttribution);
+        //map.addControl(mapAttribution);
         map.addControl(new upControl());
       
     } else {
@@ -135,7 +135,8 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
         var map = L.map('map', {
             center: new L.LatLng(39.952335,-75.163789),
             zoom: 13,
-            attributionControl: false
+            attributionControl: false,
+            scrollWheelZoom: false
         });
 
         PCM.drawControl = new L.Control.Draw({
@@ -150,18 +151,19 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
         });
 
         map.addControl(PCM.drawControl);        
-        map.addControl(mapAttribution);
+        //map.addControl(mapAttribution);
     }
 
     map.addLayer(layer); 
     
     // $EVENTS
-    $('#dateSlider').bind('userValuesChanged', function(e, bind) {
+    $('#date-range button').on('mouseup', function(e, bind) {
         if (!$.isEmptyObject(geometry)) {
             // _gaq.push(['_trackEvent', 'UserInput', 'DateSliderChange', 'AfterDraw']);
+            var numofdays = $(this).data('days');
             $('.loading').trigger('loading');
             var queryGeometry = JSON.stringify(geometry);
-            fetchCrimes(queryGeometry);
+            fetchCrimes(queryGeometry, numofdays);
         } else {
             //_gaq.push(['_trackEvent', 'UserInput', 'DateSliderChange', 'BeforeDraw']);
         }
@@ -213,11 +215,16 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
         return year + '-' + month + '-' + day;
     }
 
-    var fetchCrimes = function(bufferGeometry, minD, maxD) {
+    var fetchCrimes = function(bufferGeometry,tdays, minD, maxD) {
         var minDate, maxDate, requestType;
+        var numofdays = (!tdays) ? $('#date-range button.active').data('days') : tdays;
+        var today = new Date();
+        var maxDate = formatDate(today);
+        var pastDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - numofdays);
+        var minDate = formatDate(pastDate);
         
-        minDate = (!minD) ? formatDate($('#dateSlider').dateRangeSlider('min')) : minD;
-        maxDate = (!maxD) ? formatDate($('#dateSlider').dateRangeSlider('max')) : maxD;
+        /*minDate = (!minD) ? formatDate($('#dateSlider').dateRangeSlider('min')) : minD;
+        maxDate = (!maxD) ? formatDate($('#dateSlider').dateRangeSlider('max')) : maxD;*/
         requestType = (!minD) ? 'GET' : 'POST';
         dataType = (requestType === 'GET') ? 'jsonp' : 'json';
 
@@ -277,7 +284,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
         var crimeTotal = data.features.length > 1000 ? '1000+' : data.features.length;
         if (isTouch) {
             alert("Touch results");
-            $('#results').html('<span><h4>There were ' + crimeTotal + ' crimes for the area you selected:</h4><center><i class="down icon-arrow-down"></i></center>');
+            $('#results').html('<span><h4>There were ' + crimeTotal + ' crimes in this area:</h4><center><i class="down icon-arrow-down"></i></center>');
 
             $('.down').click(function() {
                 $('html,body').animate({
@@ -285,7 +292,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
                     }, 250);
             });
          } else {
-            $('#results').html('<h4>There were ' + crimeTotal + ' crimes for the area you selected:</h4>');
+            $('#results').html('<h4>There were ' + crimeTotal + ' crimes in this area:</h4>');
         }
 
         for (var i=0; i < data.features.length; i++) {
@@ -330,12 +337,12 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
 
         $('#results').append(maxResultsNote);
            if (!isTouch) {
-               $('#results').append(computerResultsNote);
+               //$('#results').append(computerResultsNote);
            }
 
            if (isTouch) {
 
-               $('#results').append(mobileResultsNote);
+               //$('#results').append(mobileResultsNote);
       
                bufferedArea = geometry.rings[0];
                var bufferedArray = [];

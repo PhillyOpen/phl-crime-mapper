@@ -1,3 +1,36 @@
+/* CRIME MAP
+========================================== */
+
+.map-explanation #street-address {
+    width: 240px;
+}
+
+.map-explanation label {
+    text-transform: uppercase;
+    margin: 20px 0 5px 0;
+}
+
+/*.map-explanation a {
+    color: #f5deb3;
+}*/
+
+.map-actions {
+    margin: 20px 0 0 0;
+}
+
+.map-actions button {
+    margin: 0 10px 0 0;
+}
+
+i.icon-loading {
+    background-image: url(/themes/v3/img/loading.gif);
+    background-position: 0 0;
+}
+
+i.icon-spinner {
+   font-size: 60px;
+}
+
 /* line 21, main.scss */
 html, body, #map {
   height: 100%;
@@ -21,6 +54,11 @@ a:hover {
   text-decoration: none;
 }
 
+label {
+   font-size: 18px;
+   line-height: 24px;
+}
+
 /* line 40, main.scss */
 #explanation {
   -webkit-border-radius: 20px;
@@ -34,14 +72,19 @@ a:hover {
   position: absolute;
   background-color: black;
   position: relative;
-  left: 1%;
-  top: 1%;
+  left: 47px;
+  top: 9px;
   position: absolute;
   padding: 25px;
   color: white;
   z-index: 50;
   width: 330px;
+  opacity: .95;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=95)";
+  filter: alpha(opacity=95);
 }
+
+#explanation h5 {margin: 3px 0 0 0;}
 
 /* line 53, main.scss */
 #dateSlider {
@@ -52,18 +95,16 @@ a:hover {
 #results {
   padding: 20px;
   position: relative;
-  left: 78%;
-  top: 1%;
+  right: 5px;
+  top: 9px;
   background-color: black;
   color: white;
   width: 250px;
   /*height: 365px;*/
   z-index: 50;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: alpha(opacity=100);
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  opacity: 1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=95)";
+  filter: alpha(opacity=95);
+  opacity: .95;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
@@ -75,6 +116,10 @@ a:hover {
   position: absolute;
   display: none;
 }
+
+#results label {display: inline; font-weight: 700;}
+#results h3 {line-height: 27px;}
+#results input[type="checkbox"] {margin: -5px 6px 0 0;}
 
 /* line 72, main.scss */
 #header {
@@ -102,10 +147,10 @@ a:hover {
 /* line 86, main.scss */
 h1 {
   font-family: 'Open Sans Condensed', sans-serif;
-  font-size: 60px;
+  font-size: 54px;
   font-weight: 700;
-  line-height: 64px;
-  margin: 0 0 0;
+  line-height: 54px;
+  margin: 0 0 21px 0;
   text-align: center;
   text-transform: uppercase;
 }
