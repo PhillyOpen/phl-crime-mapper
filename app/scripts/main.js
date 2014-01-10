@@ -1,4 +1,5 @@
 var PhlCrimeMapper = PhlCrimeMapper || {};
+$(document).ready(function(){
 
 (function(PCM, $) {    
 
@@ -108,6 +109,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
                 link.title = 'Go back up';
                 
                 L.DomEvent.on(link, 'click', function(evt) {
+                    e.preventDefault();
                     L.DomEvent.stopPropagation(evt);
                     $('html,body').animate({
                         scrollTop: $('#smartphone-start').offset().top
@@ -152,6 +154,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
 
         map.addControl(PCM.drawControl);        
         //map.addControl(mapAttribution);
+        PhlCrimeMapper.drawControl.handlers.polygon.enable();
     }
 
     map.addLayer(layer); 
@@ -178,7 +181,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
     });
 
     $('.down').click(function() {
-        alert("Icon");
+        //alert("Icon");
     });
 
     map.on('draw:poly-created', function(evt) {
@@ -287,6 +290,7 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             $('#results').html('<span><h4>There were ' + crimeTotal + ' crimes in this area:</h4><center><i class="down icon-arrow-down"></i></center>');
 
             $('.down').click(function() {
+                e.preventDefault();
                 $('html,body').animate({
                     scrollTop: $('#map').offset().top
                     }, 250);
@@ -310,7 +314,6 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
                     type: 'checkbox',
                     name: crime.name,
                     value: crime.code,
-                    class: 'checkbox',
                     id: crime.name
                 });
 
@@ -523,3 +526,5 @@ var PhlCrimeMapper = PhlCrimeMapper || {};
             }
         }
 })(PhlCrimeMapper, jQuery);
+
+});
